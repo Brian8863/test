@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.title("📘 題庫練習器（隨機 50 題，一次交卷）")
+st.title("📘 題庫練習器（隨機 30 題，一次交卷）")
 
 uploaded_file = st.file_uploader("請上傳 Excel 題庫檔（需含欄位：ID, 答案, 題目, 選項一～四）", type=["xlsx"])
 
