@@ -15,7 +15,7 @@ if uploaded_file:
     if st.button("🎲 開始作答") or "questions_loaded" not in st.session_state:
         sampled_df = df.sample(n=num_questions).reset_index(drop=True)
         st.session_state["sampled_df"] = sampled_df
-        st.session_state["user_answers"] = [{} for _ in range(num_questions)]  # key: 選項, value: bool
+        st.session_state["user_answers"] = [{} for _ in range(num_questions)]
         st.session_state["submitted"] = False
         st.session_state["questions_loaded"] = True
 
@@ -46,16 +46,21 @@ if "sampled_df" in st.session_state:
 
         selected = set()
         if is_multiple:
-            st.write("（複選）")
             for key, value in options.items():
                 if pd.notna(value):
                     checked = st.checkbox(f"{value}", key=f"q_{i}_{key}")
                     if checked:
                         selected.add(value)
         else:
-            st.write("（單選）")
-            selected_val = st.radio("請選擇：", options=[v for v in options.values() if pd.notna(v)], key=f"q_{i}_radio")
-            selected.add(selected_val)
+            valid_options = [v for v in options.values() if pd.notna(v)]
+            selected_val = st.radio(
+                "請選擇：",
+                options=valid_options,
+                key=f"q_{i}_radio",
+                index=None  # ✅ 不預設任何選項
+            )
+            if selected_val:
+                selected.add(selected_val)
 
         user_answers[i] = selected
 
