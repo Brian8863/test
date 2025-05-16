@@ -7,17 +7,23 @@ st.title("📘 題庫練習器")
 uploaded_file = st.file_uploader("📥 請上傳 Excel 題庫檔（需含：ID、題目、答案、選項1~4、可選圖片欄）", type=["xlsx"],accept_multiple_files=False)
 
 if uploaded_file:
-    df = pd.read_excel(uploaded_file)
+    try:
+        st.success("✅ 成功讀取 Excel 檔案")
+        st.write(df.head())
+        df = pd.read_excel(uploaded_file)
 
-    max_count = len(df)
-    num_questions = st.number_input("📌 請輸入想作答的題數：", min_value=1, max_value=max_count, value=min(10, max_count), step=1)
+        max_count = len(df)
+        num_questions = st.number_input("📌 請輸入想作答的題數：", min_value=1, max_value=max_count, value=min(10, max_count), step=1)
 
-    if st.button("🎲 開始作答") or "questions_loaded" not in st.session_state:
-        sampled_df = df.sample(n=num_questions).reset_index(drop=True)
-        st.session_state["sampled_df"] = sampled_df
-        st.session_state["user_answers"] = [{} for _ in range(num_questions)]
-        st.session_state["submitted"] = False
-        st.session_state["questions_loaded"] = True
+        if st.button("🎲 開始作答") or "questions_loaded" not in st.session_state:
+            sampled_df = df.sample(n=num_questions).reset_index(drop=True)
+            st.session_state["sampled_df"] = sampled_df
+            st.session_state["user_answers"] = [{} for _ in range(num_questions)]
+            st.session_state["submitted"] = False
+            st.session_state["questions_loaded"] = True
+    except Exception as e:
+        st.error("❌ 無法讀取 Excel 檔案")
+        st.exception(e)
 
 if "sampled_df" in st.session_state:
     df = st.session_state["sampled_df"]
