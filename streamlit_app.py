@@ -4,7 +4,7 @@ import pandas as pd
 st.set_page_config(page_title="📘 題庫練習器", layout="centered")
 st.title("📘 題庫練習器")
 
-uploaded_file = st.file_uploader("📥 請上傳 Excel 題庫檔（需含：ID、題目、答案、選項1~4、可選圖片欄）", type=["xlsx"],accept_multiple_files=False)
+uploaded_file = st.file_uploader("📥 請上傳 Excel 題庫檔（檔名請改英文，需含：ID、題目、答案、選項1~4、可選圖片欄）", type=["xlsx"],accept_multiple_files=False)
 
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
