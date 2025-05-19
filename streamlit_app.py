@@ -90,8 +90,8 @@ if st.session_state.get("submitted", False):
 
         st.markdown(f"### 第 {i+1} 題：{'✅ 正確' if is_correct else '❌ 錯誤'}")
         st.write(f"題目：{row['題目']}")
-        st.write(f"你的答案：{\n.join(user_set) if user_set else '（未作答）'}")
-        st.write(f"正確答案：{\n.join(correct_set)}")
+        st.write(f"你的答案：{'&'.join(user_set) if user_set else '（未作答）'}")
+        st.write(f"正確答案：{'&'.join(correct_set)}")
         st.markdown("---")
 
     st.markdown(f"## 🧮 你的總分：{round(total_score, 2)} / 100")
